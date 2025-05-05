@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌙 Sleep & Journal</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="icon" href="favicon.jpeg" type="image/x-icon" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+    }
+    h1 {
+      color: #4a148c;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    button {
+      margin-top: 10px;
+    }
+    .emoji {
+      font-size: 24px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+    }
+    .story-button {
+      margin: 5px;
+      padding: 10px;
+      background-color: #7b1fa2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .story-button:hover {
+      background-color: #6a1b9a;
+    }
+  </style>
+</head>
+<body class="w3-light-grey">
+
+  <div style="margin-left:200px; padding: 20px;">
+    <div class="w3-container w3-card-4 w3-white w3-round-large w3-padding" style="max-width: 800px; margin: auto;">
+      <h1 class="w3-center">🌙 Sleep & Journal</h1>
+
+      <h3 class="w3-text-deep-purple">📖 Bedtime Story</h3>
+      <button onclick="openStorySelector()" class="w3-button w3-deep-purple w3-round">Show Story</button>
+      <div id="storyModal" class="modal">
+        <div class="modal-content">
+          <div id="storyList"></div>
+          <div id="storyDisplay" style="display:none">
+            <h4 id="storyTitle"></h4>
+            <p id="storyText"></p>
+            <button onclick="goBackToList()" class="story-button">⬅️ Back</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="w3-text-deep-purple" style="margin-top:30px;">😴 How Are You Feeling?</h3>
+      <div>
+        <span class="emoji" onclick="setMood('😄')">😄</span>
+        <span class="emoji" onclick="setMood('😐')">😐</span>
+        <span class="emoji" onclick="setMood('😴')">😴</span>
+        <span class="emoji" onclick="setMood('😢')">😢</span>
+      </div>
+      <p id="moodStatus" class="w3-text-purple w3-large"></p>
+
+      <h3 class="w3-text-deep-purple" style="margin-top:30px;">📝 Write Your Journal</h3>
+      <textarea id="journalEntry" rows="6" placeholder="Write anything on your mind..."></textarea><br>
+      <button onclick="saveJournal()" class="w3-button w3-deep-purple w3-round">💾 Save Journal</button>
+
+      <h3 class="w3-text-deep-purple" style="margin-top:30px;">🎵 Calming Sounds</h3>
+  
+  <!-- Om Sound Button -->
+  <button onclick="playSound('om')" class="w3-button w3-deep-purple w3-round">Play Om Sound</button>
+  
+  <!-- Calm Sound Button -->
+  
+  <button onclick="playSound('calm')" class="w3-button w3-deep-purple w3-round" style="margin-left: 10px;">Play Calm Voice</button>
+  <button id="stopButton" class="w3-button w3-deep-purple w3-round">Stop Audio</button>
+
+  <!-- Audio Player -->
+  <audio id="audioPlayer" controls style="display:none; margin-top:20px;">
+    <source id="audioSource" src="calm.mp3" type="audio/mp3">
+  </audio>
+
+    </div>
+
+
+  </div>
+
+  <div class="w3-bar w3-dark-grey w3-left" style="position: fixed; top: 0; bottom: 0; width: 200px;">
+    <a href="index.html" class="w3-bar-item w3-button">🏠 Home</a>
+    <a href="food.html" class="w3-bar-item w3-button">🍽️ Aaj Kya Khayein</a>
+    <a href="mini_monk.html" class="w3-bar-item w3-button">🧘 Mini Monk</a>
+    <a href="hydro.html" class="w3-bar-item w3-button">💧 Hydro Buddy</a>
+    <a href="exercise.html" class="w3-bar-item w3-button">🤸 Exercise</a>
+    <a href="sleep.html" class="w3-bar-item w3-button w3-purple">🌙 Sleep</a>
+  </div>
+
+  <script>
+    function playSound(soundType) {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioSource = document.getElementById('audioSource');
+    const stopButton = document.getElementById('stopButton');
+
+  stopButton.addEventListener('click', function() {
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0; // Reset to the beginning of the audio
+  });
+
+    // Select audio based on the sound type
+    if (soundType === 'om') {
+      audioSource.src = 'om.mp3'; // Replace with your Om sound file path
+    } else if (soundType === 'calm') {
+      audioSource.src = 'calm.mp3'; // Replace with your Calm Voice sound file path
+    }
+
+    // Play the selected audio
+    audioPlayer.load(); // Reload the audio element with the new source
+    audioPlayer.play();
+    audioPlayer.style.display = 'block'; // Show the audio player
+  }
+    const stories = {
+      "The Gentle Cloud": "Once upon a time, high in the Himalayan sky, there floated a tiny, fluffy cloud named Chinu. Unlike the other clouds that zoomed across the sky with thunderous pride or scattered like featherlight whispers, Chinu loved to drift slowly, soaking in every sight and sound from the earth below. She floated gently over snow-capped peaks, pausing to admire golden monasteries nestled on cliffs and the echo of conch shells calling monks to prayer. She giggled as she watched mountain goats playfully butt heads and listened to shepherds sing folk songs in forgotten dialects. The bigger clouds often teased her for her slow pace, calling her lazy and timid, but Chinu didn’t mind. She believed there was beauty in every detail and that every corner of the world deserved to be seen with care. One quiet afternoon, as she hovered above a sleepy valley in Uttarakhand, she noticed something troubling. The fields were cracked, the rivers had shrunk to thin silver lines, and the leaves on the trees drooped tiredly. Children walked long distances to fetch water, and elders sat outside their homes, eyes turned toward the sky. Chinu watched as they prayed, whispering hopes for rain. The other clouds, full and heavy, flew past without a second glance, bound for cities where they could put on grand thunder shows. But Chinu felt her fluffy heart tremble. She may not have been grand, but she could try. Slowly, she drifted toward the highest mountains, gathering dew from melting glaciers, sipping moisture from hidden waterfalls, and swirling through the cool mists of deep valleys. It took her three days and three nights, and she grew darker, fuller, and heavier than she had ever been. When she finally returned to the valley, she let herself open gently, and the first raindrop fell like a blessing. Then another. And another. The dry earth drank eagerly, and the dusty air turned fragrant and fresh. Children ran out laughing, dancing in puddles, their joy lifting Chinu higher with each giggle. Farmers threw seeds into the air like confetti, and the elders folded their hands in gratitude. As the rain continued softly, life returned—frogs sang from rice paddies, mango trees stood tall again, and the village glowed with green. When Chinu had given all she had, she became light again, rising above the rainbow that stretched across the valley she had helped heal. From that day forward, whenever a corner of the Himalayas cried out for help, Chinu would appear—gentle, slow, and full of heart. And though she was still the smallest cloud in the sky, the mountains knew her as the one who moved with purpose, carrying not just water, but love in every drop.",
+      "Moonlight on the Ganges": "In a small village near the sacred Ganges, lived an old boatman named Hari who spent every night drifting gently across the moonlit river, his wooden oars slicing through the water with the rhythm of age-old devotion, while his voice—low, gravelly, and full of longing—rose into the night sky in the form of lullabies meant not just for stars, but for the souls of the departed, the forgotten, and the divine, and as his boat glided like a dream across the silver waves, he would close his eyes and sing to the heavens, to the riverbanks, to the banyan trees, and to the winds that carried the scent of marigolds and incense from distant temples, and though the villagers often called him eccentric, they could not deny that there was something sacred in the way Hari treated the river—not as a mere path or livelihood, but as a living memory, a goddess, a keeper of secrets—and one quiet evening, under a full moon that turned the waters to molten silver, Hari noticed an otherworldly glow rising from the depths, a golden light cradled on a single lotus leaf, upon which sat a luminous childlike being, no taller than his palm, made entirely of starlight and memory, whose eyes shimmered with galaxies and whose smile was as gentle as the river’s lull, and though Hari’s heart trembled, the being spoke to him in a voice that echoed both within his ears and deep inside his spirit, revealing itself as a guardian of the Ganges, born of the whispered prayers, ashes, offerings, griefs, hopes, and songs that had merged with the river over centuries, now seeking a pure soul to carry its truths and echoes forward, and the spirit chose Hari—not because of strength or youth, but because of his love, his reverence, his quiet heart that sang not to be heard, but simply because it must sing—and from that night on, Hari was no longer alone, for the spirit became his companion, riding the boat with him, invisible to all but the deeply feeling, and as his songs became fuller, richer, and older than time itself, villagers began to gather by the riverbanks just to listen, weeping without knowing why, laughing without reason, touched by the melody that awakened something ancient in their blood, and legends spread of the boatman whose voice healed hearts and whose oars stirred forgotten dreams, and even as his hair turned silver and his hands grew frail, Hari continued to sail, protected by the very soul of the river, until the day the villagers found his boat floating empty at dawn, a garland of marigolds resting on the seat, and the water below glowing faintly with a golden shimmer, as if the Ganges herself had embraced her chosen one and carried him into the realm of eternal song, where every ripple was a story, every star a listener, and every lullaby a prayer.",
+      "The Sleepy Banyan Tree": "In the heart of a bustling town stood an ancient banyan tree, its massive roots twisting deep into the earth like fingers clutching centuries of forgotten stories, and its branches stretching wide like arms that had embraced generations of laughter, sorrow, prayers, and whispered promises, and though people rushed past it each day—schoolchildren with backpacks bouncing, vendors calling out their prices, elders chatting on nearby benches—few paused to truly see it, to notice how its bark held the marks of time like wrinkles on a wise old face, for the tree had stood through storms, through festivals, through births and farewells, and when the sun dipped below the horizon and the honking slowed to a hush, the banyan began to whisper, not in words that ears could hear, but in feelings that stirred hearts and memories that rose like mist, tales of dreams left unspoken, of a young poet who once carved verses into its trunk and vanished, of a girl who tied a red thread to its roots each year praying for her brother’s safety, of lovers who etched their initials and never returned, of a beggar who sang to it nightly and one day disappeared leaving behind only a cracked flute, and though the town changed and buildings grew taller, the tree remembered everything, even the silences between moments, and on certain nights when the air was especially still and the moonlight filtered softly through its canopy, those who sat quietly beneath it claimed to feel something strange—a warmth, a weightless sadness, a sudden inspiration, or a long-forgotten face in their mind—and though no one could explain it, everyone knew the tree was alive not just in bark and leaves, but in memory, in soul, in a language older than speech, and it was said that those who truly listened beneath its shade would carry its stories in their dreams, and someday, in a moment of deep need or wonder, would hear the tree whisper again—not with sound, but with the echo of something sacred and eternal.",
+      "Tara and the Talking Fireflies": "Tara couldn’t sleep without her nightlight, the soft, golden glow always casting a comforting warmth across her small bedroom, a tiny beacon that shielded her from the creeping shadows that seemed to stretch and twist in the corners of the room, and though she had tried to brave the dark without it before, her heart would race and her mind would fill with endless imagined fears, so each night, without fail, the nightlight would flicker on, glowing softly like a miniature sun in the midst of the night. But one warm summer evening, as the power went out and the room was suddenly plunged into a thick, suffocating darkness, Tara felt an unfamiliar weight settle in her chest as the fan stopped humming and the silence around her deepened. She pulled the blanket tightly around her, her fingers trembling as she stared at the empty, pitch-black space where her nightlight used to shine, and the air felt heavy, as if the dark itself was pressing in, eager to swallow her whole. Tara shut her eyes tight, wishing desperately for the soft glow to return, but then something strange happened—through the window, a soft green light flickered, catching her attention. It was faint at first, like a distant star, but as she watched, it grew brighter and closer, fluttering like a swarm of tiny lanterns. A swarm of glowing fireflies drifted through the open window, their soft glow illuminating the room with a warm, golden light that was as gentle as a whisper. Tara gasped, watching in awe as the fireflies danced around her, their wings sparkling like tiny stars, each one glowing with a soft, rhythmic pulse. One of the fireflies flew closer, hovering just in front of her nose. Tara blinked in surprise, and then, as if sensing her curiosity, the little firefly spoke in a voice that was so soft, it felt like a breeze across her cheek. Tara, do not be afraid, little one. We are the dream-keepers. The darkness is not to be feared—it’s filled with stories, with wonders, and magic, if you only listen closely. Tara sat up, her fear forgotten for a moment, mesmerized by the firefly’s soft, glowing light. Another firefly, glowing brighter than the others, circled around her before landing gently on the edge of her pillow. We’ve come to tell you stories, it said, its tiny voice like a melody in the air. And as Tara watched, the fireflies began to flit about her room, weaving in and out of the shadows, casting their soft, shimmering light on the walls. With each movement, they spoke in soft whispers, telling tales of faraway lands where the trees sang songs of old, of secret gardens where moonflowers bloomed only under the light of the full moon, of a hidden kingdom beneath the waves where dolphins danced with the stars, and of a mountain that reached into the sky and touched the very edge of the clouds. The more Tara listened, the more she felt her heart fill with warmth and wonder. The darkness, once so frightening, seemed to come alive with magic, with the promise of something beautiful and unknown, and for the first time, Tara felt no fear, only peace. The fireflies’ voices were like a lullaby, soothing her soul, and she felt her eyelids grow heavier with each story, each whisper. Soon, her body relaxed, the tension melting away as she sank into a deep, peaceful sleep, surrounded by the soft glow of the fireflies. The next morning, when Tara woke, the sunlight filtered through her window, the room bright and warm, but she didn’t need to look for her nightlight anymore. The stories of the fireflies had filled her heart with light, and from that night on, whenever the darkness came, Tara would close her eyes, remember the soft glow, and know that the fireflies were still out there, ready to tell her more tales of wonder, magic, and dreams, turning the night into something beautiful, something safe.",
+      "The Camel’s Dream": "In the vast Thar Desert, where the golden sand stretched endlessly under the blistering sun, lived a camel named Bulbul. Bulbul was no ordinary camel; he had dreams as big as the desert itself. While the other camels spent their days trudging through the hot sands, laden with heavy loads, Bulbul’s heart and mind wandered far away. Each night, as the desert cooled and the stars blinked into existence above him, Bulbul would lie beneath the vast sky, close his eyes, and imagine the rolling sand dunes turning into soft, fluffy clouds. In his mind, he would spread his legs wide, like the wings of a bird, and soar above the desert, feeling the cool wind beneath him as he flew over the golden waves of sand. The idea of flight captivated him, and it was his greatest wish. One evening, as the desert night grew still, a strange thing happened. The air became heavy with an unusual warmth, and a breeze, fragrant with the distant scent of jasmine, swept through the dunes. Bulbul closed his eyes, imagining once again that the sand was no longer sand but clouds, light and soft. Suddenly, he felt a sensation he had never felt before—the ground beneath his feet seemed to vanish, and a gentle force began to lift him from the earth. Slowly, then faster, he began to rise. His legs dangled in the air, his body weightless, as he floated above the desert. For a moment, he thought he had entered one of his dreams, but the stars above him twinkled too brightly, and the desert stretched out below him too clearly. He was flying. He soared higher and higher, the wind rushing past his ears, until he felt as if he were part of the night itself, a creature of the sky. But then, just as quickly, something changed. The wind became stronger, the desert below grew smaller, and a strange darkness began to surround him. It wasn’t the darkness of night—it was something more powerful, something ancient. Suddenly, Bulbul found himself drifting into a thick, swirling fog that seemed to block out everything. The desert below had disappeared, and the stars above were no longer visible. He was floating in an endless void, and panic began to set in. Bulbul’s heart raced as he tried to find his way back, but the wind was no longer gentle, and the air was thick with whispers that he couldn’t understand. Just as he felt his courage begin to waver, a voice broke through the chaos. It was soft, but powerful. Do not be afraid, Bulbul, the voice said. You are not alone. The fog parted, and to his astonishment, he saw a vision of other creatures like him—camels, but they were different. They had wings made of sand, their bodies glowing faintly with the light of the moon. They were flying alongside him, soaring through the air like birds, their eyes bright with the same wonder Bulbul had once felt. You are the chosen one, the voice continued. The desert has granted you this gift because your heart is pure, and your dreams are limitless. Bulbul, stunned and overwhelmed, asked, Why me? Why do I deserve this magic? The sand-winged camels circled him, their wings creating a soft breeze that brushed against his face. Because you dared to dream, one of them answered. The desert recognizes those who believe in the impossible. With that, the fog cleared, and the stars returned, shining more brightly than ever. Bulbul looked down and saw the Thar Desert below him once more, but it was no longer just sand. He saw it as he had always dreamed of—a place of endless possibility, a place where dreams could take flight. But as he began to descend, the wind picked up again, and the camels with sand wings whispered, Remember, Bulbul, this gift will only stay with you as long as you continue to dream. If your heart ever loses its belief in the impossible, the magic will fade. Bulbul, now filled with a newfound sense of purpose, floated gently back to the desert floor, his hooves touching the sand once more. He felt different, lighter, as though the weight of his dreams had somehow been shared by the stars themselves. The next morning, when the sun rose and the desert came alive with its usual warmth, Bulbul was the same camel, but something inside him had changed. He no longer needed to imagine the sand as clouds, for he knew the desert held magic, waiting to be unlocked by those who dared to dream. From that day forward, Bulbul’s dreams were no longer just fantasies—they were his guiding light, and the desert, once a place of endless dust, became a place where anything was possible. And every night, when the desert winds whispered, Bulbul would smile, knowing that as long as his heart remained open to the impossible, he could always soar."
+    };
+
+    function openStorySelector() {
+      const modal = document.getElementById("storyModal");
+      const listDiv = document.getElementById("storyList");
+      const displayDiv = document.getElementById("storyDisplay");
+      listDiv.innerHTML = '<h3>Select a Story</h3>';
+      for (const title in stories) {
+        const btn = document.createElement("button");
+        btn.textContent = title;
+        btn.className = "story-button";
+        btn.onclick = () => showStory(title);
+        listDiv.appendChild(btn);
+      }
+      displayDiv.style.display = "none";
+      modal.style.display = "block";
+    }
+
+    function showStory(title) {
+      document.getElementById("storyList").style.display = "none";
+      document.getElementById("storyDisplay").style.display = "block";
+      document.getElementById("storyTitle").innerText = title;
+      document.getElementById("storyText").innerText = stories[title];
+    }
+
+    function goBackToList() {
+      document.getElementById("storyDisplay").style.display = "none";
+      document.getElementById("storyList").style.display = "block";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("storyModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    function setMood(emoji) {
+      document.getElementById("moodStatus").innerText = `You're feeling ${emoji} tonight.`;
+    }
+
+    function saveJournal() {
+      const text = document.getElementById("journalEntry").value;
+      if (text.trim() === "") {
+        alert("Please write something in your journal before saving.");
+        return;
+      }
+
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "MyJournal.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>

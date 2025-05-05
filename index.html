@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wellness Buddy - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.jpeg" type="image/x-icon">
+
+</head>
+<body class="w3-light-blue" style="font-family: 'Quicksand', sans-serif; background-image: url('cover.jpeg'); background-size: cover;">
+
+  <!-- Logo Section -->
+  <div class="w3-center w3-margin-top">
+    <img src="logo.png" alt="Wellness Buddy Logo" style="max-width: 150px; height: auto;">
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="w3-container w3-center w3-padding-64 w3-white w3-round-large w3-card-4" style="max-width: 500px; margin: auto; background: rgba(255,255,255,0.9);">
+    <h2 class="w3-text-teal">Welcome to Healthara 🌿</h2>
+    <p>Let's begin your journey to a healthier you!</p>
+
+    <input id="username" class="w3-input w3-border w3-round w3-margin-top" type="text" placeholder="Enter your name">
+
+    <button onclick="startQuiz()" class="w3-button w3-teal w3-margin-top w3-round-large w3-hover-green">
+      Start Health Quiz
+    </button>
+  </div>
+
+  <!-- Navigation Section -->
+  <div style="position: fixed; top: 0; left: 0; width: 200px; height: 100%; background-color: #333; display: flex; flex-direction: column; align-items: center; padding-top: 20px; z-index: 1000;">
+    <a href="index.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">🏠 Home</a>
+    <a href="food.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">🍽️ Aaj Kya Khayein</a>
+    <a href="mini_monk.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">🧘 Mini Monk</a>
+    <a href="hydro.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">💧 Hydro Buddy</a>
+    <a href="exercise.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">🤸 Exercise</a>
+    <a href="sleep.html" style="padding: 15px; text-align: center; text-decoration: none; color: white; width: 100%; display: block;">🌙 Sleep</a>
+  </div>
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

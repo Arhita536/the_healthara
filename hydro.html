@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💧 Hydro Buddy</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="icon" href="favicon.jpeg" type="image/x-icon" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      color: #00796b;
+      margin-bottom: 10px;
+    }
+
+    h3, h4 {
+      font-size: 20px;
+      color: #00796b;
+    }
+
+    .w3-bar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 200px;
+      z-index: 1;
+    }
+
+    .w3-bar-item {
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .w3-bar-item:hover {
+      background-color: #00796b;
+    }
+
+    #totalWater {
+      font-size: 32px;
+      font-weight: bold;
+      color: #388e3c;
+    }
+
+    #reminderMessage {
+      font-size: 18px;
+      color: #d32f2f;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:focus {
+      border-color: #00796b;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e0f2f1;
+      border-radius: 8px;
+      margin-top: 10px;
+      height: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .activity {
+      background-color: #80deea;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .reset-btn {
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      background-color: #c62828;
+    }
+
+    .log-btn {
+      background-color: #00796b;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .log-btn:hover {
+      background-color: #004d40;
+    }
+
+    .tip-btn {
+      background-color: #0288d1;
+      color: white;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .tip-btn:hover {
+      background-color: #01579b;
+    }
+  </style>
+</head>
+<body class="w3-light-grey" style = "background-image: url('hydro.jpeg');">
+  <div class="w3-bar w3-dark-grey w3-left" style="position: fixed; top: 0; left: 0; width: 200px; height: 100%; background-color: #333; display: flex; flex-direction: column; align-items: center; padding-top: 20px; z-index: 1000;">
+    <a href="index.html" class="w3-bar-item w3-button">🏠 Home</a>
+    <a href="food.html" class="w3-bar-item w3-button">🍽️ Aaj Kya Khayein</a>
+    <a href="mini_monk.html" class="w3-bar-item w3-button">🧘 Mini Monk</a>
+    <a href="hydro.html" class="w3-bar-item w3-button w3-teal">💧 Hydro Buddy</a>
+    <a href="exercise.html" class="w3-bar-item w3-button">🤸 Exercise</a>
+    <a href="sleep.html" class="w3-bar-item w3-button">🌙 Sleep</a>
+  </div>
+
+  <div style="margin-left: 200px; padding: 20px;">
+    <div class="w3-container w3-padding w3-card-4 w3-white w3-round-large w3-center" style="max-width: 600px; margin: auto;">
+      <h1>💧 Hydro Buddy</h1>
+      <p id="greeting" class="w3-large w3-text-teal"></p>
+
+      <h3 class="w3-text-teal">Track Your Water Intake</h3>
+      <p>Enter the amount of water you’ve drunk today in Liters:</p>
+
+      <div class="w3-row">
+        <div class="w3-col s8">
+          <input id="waterAmount" class="w3-input w3-border w3-padding-small w3-round" type="number" placeholder="Enter water in Liters" step="0.01" min="0" />
+        </div>
+        <div class="w3-col s4">
+          <button class="log-btn" onclick="logWater()">Log Water</button>
+        </div>
+      </div>
+
+      <div class="w3-padding-large w3-margin-top">
+        <h4 class="w3-text-teal">Your Water Intake Today:</h4>
+        <p id="totalWater" class="w3-large w3-text-green w3-bold">0 L</p>
+
+        <div class="progress-bar-container">
+          <div id="progressBar" class="progress-bar w3-teal" style="width: 0%;"></div>
+        </div>
+
+        <h4 class="w3-text-teal">Daily Goal: 2 Liters</h4>
+
+        <h4 class="w3-text-teal">Reminder</h4>
+        <p id="reminderMessage" class="w3-text-red w3-large">You haven't logged water in a while! Please stay hydrated!</p>
+      </div>
+
+      <div id="activitySection" class="activity">
+        <h4>Hydration Tips</h4>
+        <div id="tipsContainer">
+          <button class="tip-btn" onclick="viewTip(0)">1. Drink water before meals</button>
+          <button class="tip-btn" onclick="viewTip(1)">2. Carry a reusable water bottle</button>
+          <button class="tip-btn" onclick="viewTip(2)">3. Try infusing your water with fruit for added flavor</button>
+          <button class="tip-btn" onclick="viewTip(3)">4. Drink a glass of water as soon as you wake up</button>
+          <button class="tip-btn" onclick="viewTip(4)">5. Set reminders to drink water throughout the day</button>
+          <button class="tip-btn" onclick="viewTip(5)">6. Drink more water when you're feeling hungry</button>
+          <button class="tip-btn" onclick="viewTip(6)">7. Keep your water bottle within arm's reach</button>
+          <button class="tip-btn" onclick="viewTip(7)">8. Drink extra water during hot weather or exercise</button>
+          <button class="tip-btn" onclick="viewTip(8)">9. Add cucumber or mint for a refreshing twist</button>
+          <button class="tip-btn" onclick="viewTip(9)">10. Avoid sugary drinks and choose water instead</button>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetWaterIntake()">Reset Water Intake</button>
+    </div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const total = parseFloat(localStorage.getItem("waterIntake")) || 0;
+      document.getElementById("totalWater").innerText = `${total.toFixed(2)} L`;
+      const percentage = Math.min((total / 2) * 100, 100);
+      document.getElementById("progressBar").style.width = percentage + "%";
+
+      if (total > 0) {
+        document.getElementById("reminderMessage").style.display = "none";
+      }
+
+      // Show reminder after 2 hours of no activity
+      window.hydrationReminder = setTimeout(() => {
+        document.getElementById("reminderMessage").style.display = "block";
+      }, 2 * 60 * 60 * 1000);
+    };
+
+    function logWater() {
+      const amount = parseFloat(document.getElementById("waterAmount").value);
+      if (isNaN(amount) || amount <= 0) return;
+
+      let total = parseFloat(localStorage.getItem("waterIntake")) || 0;
+      total += amount;
+      localStorage.setItem("waterIntake", total);
+      document.getElementById("totalWater").innerText = `${total.toFixed(2)} L`;
+
+      const percentage = Math.min((total / 2) * 100, 100);
+      document.getElementById("progressBar").style.width = percentage + "%";
+
+      document.getElementById("reminderMessage").style.display = "none";
+
+      // Overhydration Alert
+      if (total > 3) {
+        alert("Overhydration Alert! You have exceeded a healthy water intake for today.");
+      }
+
+      // Reset reminder timer
+      clearTimeout(window.hydrationReminder);
+      window.hydrationReminder = setTimeout(() => {
+        document.getElementById("reminderMessage").style.display = "block";
+      }, 2 * 60 * 60 * 1000); // 2 hours
+    }
+
+    function resetWaterIntake() {
+      localStorage.setItem("waterIntake", 0);
+      document.getElementById("totalWater").innerText = "0 L";
+      document.getElementById("progressBar").style.width = "0%";
+      document.getElementById("reminderMessage").style.display = "block";
+    }
+
+    function viewTip(index) {
+      const tips = [
+        "Drink water before meals to help control your appetite.",
+        "Carrying a reusable water bottle makes it easier to drink water throughout the day.",
+        "Infuse your water with fruits like lemon or berries for a natural flavor boost.",
+        "Drinking a glass of water as soon as you wake up helps kick-start your metabolism.",
+        "Setting reminders throughout the day will keep you on track with your hydration goals.",
+        "Sometimes thirst is mistaken for hunger, so try drinking water when you're hungry.",
+        "Having your water bottle close to you increases the likelihood of drinking water.",
+        "Drink extra water during hot weather or when exercising to stay hydrated.",
+        "Add cucumber or mint to your water for a refreshing twist.",
+        "Choose water over sugary drinks to reduce your calorie intake."
+      ];
+
+      alert(tips[index]);
+    }
+  </script>
+</body>
+</html>
